@@ -1,0 +1,44 @@
+{
+  "name": "simple-template-parser",
+  "version": "1.0.0",
+  "description": "Tiny template string formatter with defaults and pipes.",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "test": "echo \"No tests yet\"",
+    "start": "node examples/demo.js"
+  },
+  "keywords": [
+    "template",
+    "string",
+    "formatter",
+    "pipes",
+    "typescript"
+  ],
+  "author": "Victoria",
+  "sideEffects": false,
+  "license": "MIT",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.6",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-typescript": "^12.1.4",
+    "rollup": "^4.46.3",
+    "rollup-plugin-dts": "^6.2.3",
+    "tslib": "^2.8.1",
+    "typescript": "^5.9.2"
+  }
+}

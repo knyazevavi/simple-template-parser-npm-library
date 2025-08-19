@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",              // современный JS
+    "module": "ES2020",              // генерируем ESM-модули
+    "moduleResolution": "bundler",   // корректный импорт для сборщиков (Rollup/Vite)
+    "esModuleInterop": true,         // позволяет писать import вместо require
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+
+    "outDir": "dist",
+    "rootDir": "src", 
+    "declaration": true,             // генерировать типы .d.ts
+    "declarationDir": "dist/types",
+    "resolveJsonModule": true,
+    "isolatedModules": true          // помогает TypeScript понимать ESM
+  },
+  "include": ["src/**/*"],
+  "exclude": ["dist", "node_modules"]
+}
+
