@@ -9,7 +9,7 @@ describe("formatTemplate", () => {
 
     // намеренно падающий тест (АНОМАЛИЯ)
     it("демо-аномалия: ожидаем Guest, но ключа нет", () => {
-        const out = formatTemplate("Hello, {name}!", { values: {} });
+        const out = formatTemplate("Hello, {name: Guest}!", { values: {} });
         expect(out).toBe("Hello, Guest!");
     });
 });
