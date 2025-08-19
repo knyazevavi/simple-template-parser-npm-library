@@ -51,21 +51,14 @@ rollup.config.mjs - конфиг Rollup, где мы указываем:
 npx tsc --noEmit    # только проверка типов
 или npm run build   # если уже настроен rollup
 
-Доп. поля (по желанию, но полезно)
+5. Tests
+npm run build --silent - Выведет только реальные ошибки/варнинги сборки.
+npm test -- --reporter=verbose -
+        - npm test → запускает скрипт "test": "vitest run".
+        -- разделитель: всё, что идёт после --, передаётся самому Vitest, а не npm.
+        -- reporter=verbose → даёт подробный вывод: показывает не только «зелёный/красный», но и весь список тестов, включая PASSED/FAILED, и ошибки со стеком.
+где --runInBand делает тесты по одному (последовательно), чтобы было проще читать логи.
 
-Добавить когда будет репозиторий/публикация:
-
-{
-  "repository": { "type": "git", "url": "git+https://github.com/<you>/<repo>.git" },
-  "bugs": { "url": "https://github.com/<you>/<repo>/issues" },
-  "homepage": "https://github.com/<you>/<repo>#readme",
-  "engines": { "node": ">=18" }
-}
-
-
-Если заскоупишь пакет (например, "@vika/simple-template-parser"), добавь:
-
-"publishConfig": { "access": "public" }
 ````
 
 ## Scripts

@@ -17,10 +17,12 @@
     "dist"
   ],
   "scripts": {
-    "build": "rollup -c",
     "dev": "rollup -c -w",
-    "test": "echo \"No tests yet\"",
-    "start": "node examples/demo.js"
+    "start": "node examples/demo.js",
+    "build": "rollup -c",
+    "build:ci": "rollup -c --silent",
+    "test": "vitest run",
+    "test:ci": "vitest run --reporter=verbose --runInBand"
   },
   "keywords": [
     "template",
@@ -36,9 +38,11 @@
     "@rollup/plugin-commonjs": "^28.0.6",
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-typescript": "^12.1.4",
+    "@types/node": "^24.3.0",
     "rollup": "^4.46.3",
     "rollup-plugin-dts": "^6.2.3",
     "tslib": "^2.8.1",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
   }
 }
