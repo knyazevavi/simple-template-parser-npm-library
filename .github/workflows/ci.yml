@@ -1,24 +1,20 @@
-name: CI
+name: CI # имя пайплайна в Actions
 
-on:
-  push:
+on: # когда запускать
+  push: # при пушах
     branches: [main]
-  pull_request:
-  workflow_dispatch: {} # даст кнопку "Run workflow" руками
+  pull_request: # при PR
+  workflow_dispatch: {} # можно запустить руками кнопкой “Run workflow”
 
 jobs:
-  build_and_test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
+  build_and_test: # имя job (набор шагов)
+    runs-on: ubuntu-latest # агент – Ubuntu
+    steps: # шаги, выполняемые по порядку
+      - uses: actions/checkout@v4 # вытащить код из твоего репо
+      - uses: actions/setup-node@v4 # поставить Node
         with:
           node-version: 18
           cache: npm
-
       - name: Install deps
         run: |
           if [ -f package-lock.json ]; then
@@ -26,9 +22,7 @@ jobs:
           else
             npm install
           fi
-
       - name: Build (CI mode)
-        run: npm run build:ci
-
+        run: npm run build:ci # сборка (чистые логи)
       - name: Test (CI mode)
-        run: npm run test:ci
+        run: npm run test:ci # тесты (подробные логи)
