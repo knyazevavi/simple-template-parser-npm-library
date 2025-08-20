@@ -57,7 +57,28 @@ npm test -- --reporter=verbose -
         - npm test → запускает скрипт "test": "vitest run".
         -- разделитель: всё, что идёт после --, передаётся самому Vitest, а не npm.
         -- reporter=verbose → даёт подробный вывод: показывает не только «зелёный/красный», но и весь список тестов, включая PASSED/FAILED, и ошибки со стеком.
-где --runInBand делает тесты по одному (последовательно), чтобы было проще читать логи.
+
+6. Formatted
+npm i -D eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
+create - .eslintrc.json
+{
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  "env": { "es2021": true, "node": true },
+  "ignorePatterns": ["dist/**"]
+}
+
+7. CI/CD - настроен файл .github/workflows/ci.yml
+Автосборка, тестирование, поиск уязвимостей и автопубликация
+
+snyk test - для более мощного поиска зависимостей
+
+Для выпуска релиза -
+# тип: patch / minor / major
+npm version patch        # поднимет версию и создаст тег v0.0.2
+git push --follow-tags   # пушит коммит и тег → триггерит workflow
+
 
 ````
 
