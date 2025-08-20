@@ -3,26 +3,81 @@ name: CI # имя пайплайна в Actions
 on: # когда запускать
   push: # при пушах
     branches: [main]
+    tags: ["v*"]
   pull_request: # при PR
   workflow_dispatch: {} # можно запустить руками кнопкой “Run workflow”
 
 jobs:
-  build_and_test: # имя job (набор шагов)
-    runs-on: ubuntu-latest # агент – Ubuntu
-    steps: # шаги, выполняемые по порядку
-      - uses: actions/checkout@v4 # вытащить код из твоего репо
-      - uses: actions/setup-node@v4 # поставить Node
+  setup:
+    name: Setup
+    runs-on: ubuntu-latest
+    outputs:
+      node-version: ${{ steps.setver.outputs.node }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: setver
+        run: echo "node=18" >> $GITHUB_OUTPUT
+      - uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: npm
-      - name: Install deps
-        run: |
-          if [ -f package-lock.json ]; then
-            npm ci
-          else
-            npm install
-          fi
-      - name: Build (CI mode)
-        run: npm run build:ci # сборка (чистые логи)
-      - name: Test (CI mode)
-        run: npm run test:ci # тесты (подробные логи)
+          cache: "npm"
+      - run: npm ci
+
+  lint:
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 18, cache: "npm" }
+      - run: npm ci
+      - run: npm run lint
+
+  build:
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 18, cache: "npm" }
+      - run: npm ci
+      - run: npm run build
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 18, cache: "npm" }
+      - run: npm ci
+      - run: npm test -- --reporter=verbose --runInBand
+
+      # проверяет зависимости на уязвимости и фейлит билд, если находит критичные.
+  audit:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 18, cache: "npm" }
+      - run: npm ci
+      - run: npm audit --audit-level=moderate
+
+  publish:
+    name: Publish to npm
+    needs: [build, test] # публикуем только если билд и тесты зелёные
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          registry-url: https://registry.npmjs.org/
+          cache: "npm"
+      - run: npm ci
+      - run: npm run build
+      - name: npm publish
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
