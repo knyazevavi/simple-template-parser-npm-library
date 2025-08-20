@@ -51,7 +51,7 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 18, cache: "npm" }
       - run: npm ci
-      - run: npm test:ci -- --reporter=verbose
+      - run: npm run test:ci
 
       # проверяет зависимости на уязвимости и фейлит билд, если находит критичные.
   audit:
