@@ -74,6 +74,11 @@ create - .eslintrc.json
 
 snyk test - для более мощного поиска зависимостей
 
+Для выпуска релиза -
+# тип: patch / minor / major
+npm version patch        # поднимет версию и создаст тег v0.0.2
+git push --follow-tags   # пушит коммит и тег → триггерит workflow
+
 
 ````
 
