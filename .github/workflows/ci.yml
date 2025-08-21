@@ -68,6 +68,7 @@ jobs:
     name: Publish to npm
     needs: [build, test] # публикуем только если билд и тесты зелёные
     runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
