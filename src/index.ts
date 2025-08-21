@@ -20,6 +20,29 @@ export interface FormatOptions {
     formatters?: Formatters;
 }
 
+/**
+ * Форматирует строковый шаблон с подстановками и пайпами.
+ *
+ * Поддержка:
+ * - `{key}`
+ * - `{key:default}`
+ * - `{key|uppercase}`
+ * - `{key:Guest|trim|uppercase}`
+ *
+ * **Встроенные форматтеры:** `uppercase`, `lowercase`, `trim`, `pad2`.
+ * Неизвестные форматтеры игнорируются.
+ *
+ * @example
+ * formatTemplate("{greet}, {name:Guest}! Today is {day|uppercase}.", {
+ *   values: { greet: "Hi", day: "friday" }
+ * });
+ * // → "Hi, Guest! Today is FRIDAY."
+ *
+ * @param template Шаблон строки.
+ * @param options  Объект с данными (`values`) и необязательными форматтерами (`formatters`).
+ * @returns Готовая строка.
+ */
+
 export function formatTemplate(template: string, options: FormatOptions): string {
     const allFormatters = { ...defaultFormatters, ...(options.formatters ?? {}) };
 
